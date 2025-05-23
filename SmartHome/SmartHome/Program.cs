@@ -1,10 +1,22 @@
+using Microsoft.EntityFrameworkCore;
 using SmartHome.Components;
+using SmartHome.Data;
+using SmartHome.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddDbContext<HomeDbContext>(options =>
+    options.UseSqlite(connectionString));
+
+builder.Services.AddScoped<IAllarmeService, AllarmeService>();
+builder.Services.AddScoped<ISensoreService, SensoreService>();
+builder.Services.AddScoped<IEventoService, EventoService>();
+
 
 var app = builder.Build();
 
