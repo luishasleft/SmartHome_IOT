@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3F8fxKfjApeUTWqVBeBvpVbKkpBpvhdAb/AYR1QYdQA=",
+  "Hash": "EeKVl96LgeBBR9oPfYru7AwB9eIRPR7HWQqd5Ge6pvA=",
   "Source": "SmartHome",
   "BasePath": "_content/SmartHome",
   "Mode": "Default",
@@ -815,6 +815,27 @@
       "OriginalItemSpec": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js"
     },
     {
+      "Identity": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/compressed/v56iwn0k93-jp7hoyqbmw.gz",
+      "SourceId": "SmartHome",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/SmartHome",
+      "RelativePath": "js/serial#[.{fingerprint=jp7hoyqbmw}]?.js.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/js/serial.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "7gq0fd7bnu",
+      "Integrity": "53iQxHDX3W9VihQ5yFDfyky/9lPaJAFSbLNFKM5E0Xg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/js/serial.js"
+    },
+    {
       "Identity": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/compressed/vdeuyqesk6-h1s4sie4z3.gz",
       "SourceId": "SmartHome",
       "SourceType": "Discovered",
@@ -1086,6 +1107,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.png"
+    },
+    {
+      "Identity": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/js/serial.js",
+      "SourceId": "SmartHome",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/",
+      "BasePath": "_content/SmartHome",
+      "RelativePath": "js/serial#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "jp7hoyqbmw",
+      "Integrity": "uX6YrTKkRdjRDA4dbcw15rflRc6Q18Be3pjVHgzoLLw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/serial.js"
     },
     {
       "Identity": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
@@ -2390,6 +2432,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg="
+        }
+      ]
+    },
+    {
+      "Route": "js/serial.jp7hoyqbmw.js",
+      "AssetFile": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/compressed/v56iwn0k93-jp7hoyqbmw.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000972762646"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1027"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"53iQxHDX3W9VihQ5yFDfyky/9lPaJAFSbLNFKM5E0Xg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 23 May 2025 15:02:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"uX6YrTKkRdjRDA4dbcw15rflRc6Q18Be3pjVHgzoLLw=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "jp7hoyqbmw"
+        },
+        {
+          "Name": "label",
+          "Value": "js/serial.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-uX6YrTKkRdjRDA4dbcw15rflRc6Q18Be3pjVHgzoLLw="
+        }
+      ]
+    },
+    {
+      "Route": "js/serial.jp7hoyqbmw.js",
+      "AssetFile": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/js/serial.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3321"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"uX6YrTKkRdjRDA4dbcw15rflRc6Q18Be3pjVHgzoLLw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 23 May 2025 15:02:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "jp7hoyqbmw"
+        },
+        {
+          "Name": "label",
+          "Value": "js/serial.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-uX6YrTKkRdjRDA4dbcw15rflRc6Q18Be3pjVHgzoLLw="
+        }
+      ]
+    },
+    {
+      "Route": "js/serial.jp7hoyqbmw.js.gz",
+      "AssetFile": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/compressed/v56iwn0k93-jp7hoyqbmw.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1027"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"53iQxHDX3W9VihQ5yFDfyky/9lPaJAFSbLNFKM5E0Xg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 23 May 2025 15:02:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "jp7hoyqbmw"
+        },
+        {
+          "Name": "label",
+          "Value": "js/serial.js.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-53iQxHDX3W9VihQ5yFDfyky/9lPaJAFSbLNFKM5E0Xg="
+        }
+      ]
+    },
+    {
+      "Route": "js/serial.js",
+      "AssetFile": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/compressed/v56iwn0k93-jp7hoyqbmw.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000972762646"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1027"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"53iQxHDX3W9VihQ5yFDfyky/9lPaJAFSbLNFKM5E0Xg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 23 May 2025 15:02:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"uX6YrTKkRdjRDA4dbcw15rflRc6Q18Be3pjVHgzoLLw=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-uX6YrTKkRdjRDA4dbcw15rflRc6Q18Be3pjVHgzoLLw="
+        }
+      ]
+    },
+    {
+      "Route": "js/serial.js",
+      "AssetFile": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/js/serial.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3321"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"uX6YrTKkRdjRDA4dbcw15rflRc6Q18Be3pjVHgzoLLw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 23 May 2025 15:02:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-uX6YrTKkRdjRDA4dbcw15rflRc6Q18Be3pjVHgzoLLw="
+        }
+      ]
+    },
+    {
+      "Route": "js/serial.js.gz",
+      "AssetFile": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/compressed/v56iwn0k93-jp7hoyqbmw.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1027"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"53iQxHDX3W9VihQ5yFDfyky/9lPaJAFSbLNFKM5E0Xg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 23 May 2025 15:02:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-53iQxHDX3W9VihQ5yFDfyky/9lPaJAFSbLNFKM5E0Xg="
         }
       ]
     },

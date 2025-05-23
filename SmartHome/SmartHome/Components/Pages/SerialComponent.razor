@@ -1,0 +1,212 @@
+@page "/serial"
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+
+<div class="serial-container">
+    <!-- 🎯 Pulsanti connessione -->
+    <div class="connection-controls">
+        <button class="btn btn-primary" @onclick="ConnettiSeriale" disabled="@isConnecting">
+            @if (isConnecting)
+            {
+                <span>Connessione...</span>
+            }
+            else if (isConnected)
+            {
+                <span>✓ Connesso</span>
+            }
+            else
+            {
+                <span>Connetti micro:bit</span>
+            }
+        </button>
+
+        @if (isConnected)
+        {
+            <button class="btn btn-danger" @onclick="DisconnettiSeriale">
+                Disconnetti
+            </button>
+        }
+    </div>
+
+    <!-- 📡 Stato connessione -->
+    <div class="status-info">
+        <p class="status @(isConnected ? "connected" : "disconnected")">
+            <strong>Stato:</strong> @statoConnessione
+        </p>
+    </div>
+
+    <!-- 📤 Invio dati verso micro:bit -->
+    @if (isConnected)
+    {
+        <div class="send-data">
+            <h4>Invia dati alla micro:bit:</h4>
+            <div class="input-group">
+                <input @bind="messaggioDaInviare" @onkeypress="OnKeyPress"
+                       placeholder="Scrivi messaggio..." class="form-control" />
+                <button class="btn btn-success" @onclick="InviaDati"
+                        disabled="@string.IsNullOrWhiteSpace(messaggioDaInviare)">
+                    Invia
+                </button>
+            </div>
+        </div>
+    }
+
+    <!-- 📥 Dati ricevuti -->
+    <div class="received-data">
+        <h4>Dati ricevuti:</h4>
+        <div class="data-display">
+            @if (datiRicevuti.Count == 0)
+            {
+                <p class="no-data">Nessun dato ricevuto</p>
+            }
+            else
+            {
+                <div class="data-list">
+                    @foreach (var dato in datiRicevuti.TakeLast(10))
+                    {
+                        <div class="data-item">
+                            <span class="timestamp">[@dato.Timestamp.ToString("HH:mm:ss")]</span>
+                            <span class="data-value">@dato.Valore</span>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    // 📦 JS interop e stato
+    private DotNetObjectReference<SerialComponent>? objRef;
+    private IJSObjectReference? serialModule;
+
+    // 🔌 Stato connessione
+    private bool isConnected = false;
+    private bool isConnecting = false;
+    private string statoConnessione = "Disconnesso";
+
+    // 📤 Dati da inviare
+    private string messaggioDaInviare = "";
+
+    // 📥 Dati ricevuti
+    private List<DatoRicevuto> datiRicevuti = new();
+
+    private class DatoRicevuto
+    {
+        public string Valore { get; set; } = "";
+        public DateTime Timestamp { get; set; } = DateTime.Now;
+    }
+
+    // 🟢 Connessione micro:bit
+    private async Task ConnettiSeriale()
+    {
+        try
+        {
+            isConnecting = true;
+            statoConnessione = "Connessione in corso...";
+            StateHasChanged();
+
+            objRef = DotNetObjectReference.Create(this);
+            serialModule = await JS.InvokeAsync<IJSObjectReference>("import", "./js/serial.js");
+            await serialModule.InvokeVoidAsync("connectSerial", objRef);
+        }
+        catch (Exception ex)
+        {
+            statoConnessione = $"Errore: {ex.Message}";
+            isConnecting = false;
+            StateHasChanged();
+        }
+    }
+
+    // 🔴 Disconnessione
+    private async Task DisconnettiSeriale()
+    {
+        if (serialModule != null)
+        {
+            await serialModule.InvokeVoidAsync("disconnectSerial");
+        }
+    }
+
+    // 📤 Invio verso micro:bit
+    private async Task InviaDati()
+    {
+        if (serialModule != null && !string.IsNullOrWhiteSpace(messaggioDaInviare))
+        {
+            var success = await serialModule.InvokeAsync<bool>("sendData", messaggioDaInviare);
+            if (success)
+            {
+                messaggioDaInviare = "";
+                StateHasChanged();
+            }
+        }
+    }
+
+    private async Task OnKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await InviaDati();
+        }
+    }
+
+    // ✅ Chiamate JS verso C#
+    [JSInvokable]
+    public Task OnConnessioneStabilita(bool success)
+    {
+        isConnecting = false;
+        isConnected = success;
+        statoConnessione = success ? "Connesso" : "Connessione fallita";
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    [JSInvokable]
+    public Task OnConnessionePersa()
+    {
+        isConnected = false;
+        statoConnessione = "Connessione persa";
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    [JSInvokable]
+    public Task OnDisconnessione()
+    {
+        isConnected = false;
+        isConnecting = false;
+        statoConnessione = "Disconnesso";
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    [JSInvokable]
+    public Task RiceviDatoSeriale(string dato)
+    {
+        datiRicevuti.Add(new DatoRicevuto
+        {
+            Valore = dato,
+            Timestamp = DateTime.Now
+        });
+
+        // Mantieni solo gli ultimi 50 per non saturare
+        if (datiRicevuti.Count > 50)
+        {
+            datiRicevuti.RemoveAt(0);
+        }
+
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    // 🧹 Cleanup
+    public async ValueTask DisposeAsync()
+    {
+        if (serialModule != null)
+        {
+            await serialModule.InvokeVoidAsync("cleanup");
+            await serialModule.DisposeAsync();
+        }
+        objRef?.Dispose();
+    }
+}

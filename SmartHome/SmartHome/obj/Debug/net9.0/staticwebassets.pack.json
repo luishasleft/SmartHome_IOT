@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/favicon.png"
     },
     {
+      "Id": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/js/serial.js",
+      "PackagePath": "staticwebassets/js/serial.js"
+    },
+    {
       "Id": "/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css"
     },

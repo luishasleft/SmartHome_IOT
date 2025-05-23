@@ -202,3 +202,4 @@
 /Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/SmartHome.pdb
 /Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/SmartHome.genruntimeconfig.cache
 /Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/ref/SmartHome.dll
+/Users/luigi/Documents/GitHub/SmartHome_IOT/SmartHome/SmartHome/obj/Debug/net9.0/compressed/v56iwn0k93-jp7hoyqbmw.gz
