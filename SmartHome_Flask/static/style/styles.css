@@ -14,11 +14,22 @@
     padding: 0;
 }
 
+html, body {
+    height: 100%;
+}
+
+main {
+    flex: 1;
+}
+
+
 body {
     font-family: 'Roboto', sans-serif;
     background: rgba(207, 206, 206, 0.42);
     padding: 24px;
     color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
 }
 
 .dashboard {
@@ -45,7 +56,28 @@ body {
 .card:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    .arrow{
+        color: var(--purple-start);
+    }
 }
+.card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card .arrow {
+    font-size: 24px;
+    color: #999;
+}
+
+
 
 /* === PROFILE CARD === */
 .Profile {
@@ -100,3 +132,15 @@ body {
 .Connectivity .icon {
     color: darkgreen;
 }
+
+/* Footer */
+.footer {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--purple-start);
+    color: white;
+    text-align: center;
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+}
+
