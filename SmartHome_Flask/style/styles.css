@@ -1,0 +1,102 @@
+:root {
+    --purple-start: #7B3FF5;
+    --purple-end: #9F5CFE;
+    --card-bg: #ffffff; /* default card background */
+    --text-primary: #222;
+    --text-secondary: #666;
+    --radius: 18px;
+    --shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: rgba(207, 206, 206, 0.42);
+    padding: 24px;
+    color: var(--text-primary);
+}
+
+.dashboard {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+/* === CARD BASE === */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    transition: transform .15s ease, box-shadow .15s ease;
+    position: relative;
+    color: var(--text-primary);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+/* === PROFILE CARD === */
+.Profile {
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    color: white;
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 170px;
+}
+
+
+/* Rimuovo hover per la profile */
+.Profile:hover {
+    transform: none;
+    box-shadow: var(--shadow);
+}
+
+/* === SERVICES LAYOUT === */
+.Services {
+    grid-template-columns: repeat(2, 1fr); /* solo 2 card per riga */
+}
+
+/* ICONS + COLORS */
+.icon {
+    font-size: 46px;
+    margin-bottom: 14px;
+}
+
+.Profile .icon {
+    font-size: 60px;
+}
+
+.title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+
+/* Icon colors per categoria */
+.Light .icon {
+    color: #f3c915;
+}
+.Alarm .icon {
+    color: #EF5350;
+}
+.Temperature .icon {
+    color: #29B6F6;
+}
+.Connectivity .icon {
+    color: darkgreen;
+}
