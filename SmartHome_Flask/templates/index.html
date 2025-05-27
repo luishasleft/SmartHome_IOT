@@ -10,7 +10,6 @@
 </head>
 <body>
     <main>
-
         <div class="dashboard">
             <!-- Profile -->
             <div class="card Profile">
@@ -27,55 +26,102 @@
         <!-- Services -->
         <div class="dashboard Services">
 
-            <!-- Light -->
+            <!-- LIGHT -->
             <div class="card Light">
+              <div class="card-header">
                 <div class="card-content">
-                    <span class="material-icons icon">wb_incandescent</span>
-                    <div class="title">Luce</div>
+                  <span class="material-icons icon">wb_incandescent</span>
+                  <div class="title">Luce</div>
                 </div>
-                <div class="material-icons arrow">arrow_forward_ios</div>
+                <button class="btn btn-link material-icons arrow" type="button"
+                        data-toggle="collapse" data-target="#collapseLight"
+                        aria-expanded="false" aria-controls="collapseLight">
+                  <span class="material-icons arrow-icon">arrow_forward_ios</span>
+                </button>
+              </div>
+              <div class="collapse" id="collapseLight">
+                <div class="card-body">
+                    <div class="inside">
+                        <div class="n1">
+                            <h5>Luce Sala</h5>
+                            </div>
+                        <div class="n2">
+                            <label class="switch">
+                              <input type="checkbox">
+                              <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="n3">
+                            <h6>Intensitá: </h6>
+                            <input type="range" min="0" max="1023" value="550" class="range-slider">
+                        </div>
+                    </div>
+                </div>
+              </div>
             </div>
 
-
-            <!-- Alarm -->
-           <div class="card Alarm">
+            <!-- ALARM -->
+            <div class="card Alarm">
+              <div class="card-header">
                 <div class="card-content">
-                    <span class="material-icons icon">security</span>
-                    <div class="title">Allarme</div>
+                  <span class="material-icons icon">security</span>
+                  <div class="title">Allarme</div>
                 </div>
-                <div class="material-icons arrow">arrow_forward_ios</div>
-           </div>
-    <div>
-        <form method="post" action="/log/ARM">
-            <button type="submit" class="btn btn-success">ARM</button>
-        </form>
-        <form method="post" action="/log/DISARM">
-            <button type="submit" class="btn btn-secondary">DISARM</button>
-        </form>
-        <form method="post" action="/log/SOS">
-            <button type="submit" class="btn btn-danger">SOS</button>
-        </form>
-    </div>
+                <button class="btn btn-link material-icons arrow" type="button"
+                        data-toggle="collapse" data-target="#collapseAlarm"
+                        aria-expanded="false" aria-controls="collapseAlarm">
+                  <span class="material-icons arrow-icon">arrow_forward_ios</span>
+                </button>
+              </div>
+              <div class="collapse" id="collapseAlarm">
+                <div class="card-body">
+                  Contenuto della sezione Allarme
+                </div>
+              </div>
+            </div>
 
-            <!-- Temperature -->
+            <!-- TEMPERATURE -->
             <div class="card Temperature">
+              <div class="card-header">
                 <div class="card-content">
-                    <span class="material-icons icon">thermostat</span>
-                    <div class="title">Temperatura</div>
+                  <span class="material-icons icon">thermostat</span>
+                  <div class="title">Temperatura</div>
                 </div>
-                <div class="material-icons arrow">arrow_forward_ios</div>
+                <button class="btn btn-link material-icons arrow" type="button"
+                        data-toggle="collapse" data-target="#collapseTemperature"
+                        aria-expanded="false" aria-controls="collapseTemperature">
+                  <span class="material-icons arrow-icon">arrow_forward_ios</span>
+                </button>
+              </div>
+              <div class="collapse" id="collapseTemperature">
+                <div class="card-body">
+                  Contenuto della sezione Temperatura
+                </div>
+              </div>
             </div>
 
-            <!-- Connectivity -->
+            <!-- CONNECTIVITY -->
             <div class="card Connectivity">
+              <div class="card-header">
                 <div class="card-content">
-                    <span class="material-icons icon">wifi</span>
-                    <div class="title">Connessione...</div>
+                  <span class="material-icons icon">wifi</span>
+                  <div class="title">Connessione</div>
                 </div>
-                <div class="material-icons arrow">arrow_forward_ios</div>
+                <button class="btn btn-link material-icons arrow" type="button"
+                        data-toggle="collapse" data-target="#collapseConnectivity"
+                        aria-expanded="false" aria-controls="collapseConnectivity">
+                  <span class="material-icons arrow-icon">arrow_forward_ios</span>
+                </button>
+              </div>
+              <div class="collapse" id="collapseConnectivity">
+                <div class="card-body">
+                  Contenuto della sezione Connessione
+                </div>
+              </div>
             </div>
 
-        </div>
+       </div>
+
     </main>
 </body>
 
@@ -83,5 +129,10 @@
 <footer class="footer">
     <p>&copy; 2025 Smart Home. Tutti i diritti riservati.</p>
 </footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
 
 </html>
