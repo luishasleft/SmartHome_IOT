@@ -11,8 +11,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Variabile per tenere traccia dell'ultimo stato registrato
+# Variabile per tenere traccia dell'ultimo stato registrato e della temperatura
 ultimo_stato = None
+ultima_temperatura = None
 
 class StoricoAllarme(db.Model):
     __tablename__ = 'StoricoAllarme'
@@ -28,7 +29,7 @@ class StoricoAllarme(db.Model):
 def index():
     ultimo = get_ultimo_stato()
     try:
-        return render_template('index.html',ultimo=ultimo)
+        return render_template('index.html',ultimo=ultimo, temperatura=ultima_temperatura)
     except Exception as e:
         return f"Errore nel caricamento dello storico: {str(e)}", 500
 
@@ -46,13 +47,16 @@ def index():
 @app.route('/api/stato', methods=['POST'])
 def ricevi_stato_microbit():
     global ultimo_stato  # ci serve per confrontare i cambiamenti
-
+    global ultima_temperatura
     try:
         dati = request.get_json()
+
 
         richiesti = ['messaggio', 'temperatura', 'led_stato', 'potenza_led', 'colore', 'musica']
         if not all(k in dati for k in richiesti):
             return jsonify({"errore": "Campi mancanti"}), 400
+
+        ultima_temperatura = dati['temperatura']
 
         stato_corrente = None
         if dati['colore'] == 'verde':
@@ -75,6 +79,7 @@ def ricevi_stato_microbit():
             print(f"[FLASK] Stato invariato: {stato_corrente} (ignorato)")
 
         return jsonify({"successo": True, "stato": stato_corrente}), 200
+
 
     except Exception as e:
         db.session.rollback()  # buona pratica in caso di errore
