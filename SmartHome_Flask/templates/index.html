@@ -14,7 +14,9 @@
             <!-- Profile -->
             <div class="card Profile">
                 <div style="display: flex; align-items: center;">
-                    <span class="material-icons icon">home</span>
+                    <a href="index.html">
+                          <span class="material-icons icon">home</span>
+                    </a>
                     <div style="margin-left: 16px;">
                         <div class="title"><h2>Bevenuto Mario</h2></div>
                         <div class="subtitle">Ecco la tua dashboard personale</div>
@@ -51,9 +53,22 @@
                               <span class="slider round"></span>
                             </label>
                         </div>
-                        <div class="n3">
+                        <div class="n4">
                             <h6>Intensitá: </h6>
-                            <input type="range" min="0" max="1023" value="550" class="range-slider">
+                            <input type="range" min="0" max="1000" value="500" class="range-slider" list="tickmarks" step="100">
+                                <datalist id="tickmarks">
+                                    <option value="0">0</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="300">300</option>
+                                    <option value="400">400</option>
+                                    <option value="500">500</option>
+                                    <option value="600">600</option>
+                                    <option value="700">700</option>
+                                    <option value="800">800</option>
+                                    <option value="900">900</option>
+                                    <option value="1000">1000</option>
+                                </datalist>
                         </div>
                     </div>
                 </div>
@@ -75,7 +90,14 @@
               </div>
               <div class="collapse" id="collapseAlarm">
                 <div class="card-body">
-                  Contenuto della sezione Allarme
+                    <div class="button-container">
+                          <button type="button" class="btnalarm btn-success">Attiva</button>
+                          <button type="button" class="btnalarm btn-secondary">Disattiva</button>
+                          <button type="button" class="btnalarm btn-danger">SOS</button>
+                    </div>
+                    <div class="storico">
+                        <a href="Storico.html">Visualizza lo storico degli eventi</a>
+                    </div>
                 </div>
               </div>
             </div>
@@ -95,7 +117,14 @@
               </div>
               <div class="collapse" id="collapseTemperature">
                 <div class="card-body">
-                  Contenuto della sezione Temperatura
+                  <div class="Temperaturebody">
+                      <div class="t1">
+                          <h5>Temperatura Sala:</h5>
+                      </div>
+                      <div class="t2">
+                          <h5>Temperatura Media:</h5>
+                      </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -119,7 +148,6 @@
                 </div>
               </div>
             </div>
-
        </div>
 
     </main>
