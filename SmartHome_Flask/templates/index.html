@@ -90,11 +90,12 @@
               </div>
               <div class="collapse" id="collapseAlarm">
                 <div class="card-body">
-                    <div class="button-container">
-                          <button type="button" class="btnalarm btn-success">Attiva</button>
-                          <button type="button" class="btnalarm btn-secondary">Disattiva</button>
-                          <button type="button" class="btnalarm btn-danger">SOS</button>
-                    </div>
+                   <div class="button-container">
+                      <button type="button" class="btnalarm btn-success {% if ultimo == 'ARM' %}active{% endif %}">Attiva</button>
+                      <button type="button" class="btnalarm btn-secondary {% if ultimo == 'DISARM' %}active{% endif %}">Disattiva</button>
+                      <button type="button" class="btnalarm btn-danger {% if ultimo  == 'SOS' %}active{% endif %}">SOS</button>
+                   </div>
+
                     <div class="storico">
                         <a href="{{ url_for('storico') }}">Visualizza lo storico degli eventi</a>
                     </div>

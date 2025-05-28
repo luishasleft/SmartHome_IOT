@@ -26,8 +26,9 @@ class StoricoAllarme(db.Model):
 
 @app.route('/')
 def index():
+    ultimo = get_ultimo_stato()
     try:
-        return render_template('index.html')
+        return render_template('index.html',ultimo=ultimo)
     except Exception as e:
         return f"Errore nel caricamento dello storico: {str(e)}", 500
 
@@ -91,6 +92,11 @@ def storico():
         return render_template('Storico.html', allarmi=allarmi)
     except Exception as e:
         return f"Errore nel caricamento dello storico: {str(e)}", 500
+
+
+def get_ultimo_stato():
+    ultimo = StoricoAllarme.query.order_by(StoricoAllarme.data_ora.desc()).first()
+    return ultimo.stato if ultimo else None
 
 
 if __name__ == '__main__':

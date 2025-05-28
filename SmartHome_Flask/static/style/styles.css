@@ -294,22 +294,32 @@ img {
 
 .btnalarm {
     width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      color: white;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      margin: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+    height: 80px;
+    border-radius: 50%;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .btnalarm:hover {
-     transform: translateY(-1px);
+    transform: translateY(-1px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.btnalarm.active {
+    width: 100px;
+    height: 100px;
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 0 20px var(--purple-start); /* glow viola */
+    border: 3px solid white;
+    transition: all 0.3s ease;
 }
 
 /* Storico */
