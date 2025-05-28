@@ -47,4 +47,4 @@ while True:
 
     except Exception as e:
         print(f"[ERRORE] Lettura seriale fallita: {e}")
-        time.sleep(1)
+        time.sleep(2)
