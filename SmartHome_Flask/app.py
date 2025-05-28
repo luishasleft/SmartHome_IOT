@@ -1,3 +1,5 @@
+import sqlite3
+
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -24,7 +26,10 @@ class StoricoAllarme(db.Model):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    try:
+        return render_template('index.html')
+    except Exception as e:
+        return f"Errore nel caricamento dello storico: {str(e)}", 500
 
 #@app.route('/log/<stato>', methods=['POST'])
 #def log_azione(stato):
@@ -75,6 +80,17 @@ def ricevi_stato_microbit():
         print("[FLASK] Errore", str(e))
         return jsonify({"errore": str(e)}), 500
 
+
+def get_allarmi():
+    return StoricoAllarme.query.order_by(StoricoAllarme.data_ora.desc()).all()
+
+@app.route('/storico')
+def storico():
+    try:
+        allarmi = get_allarmi()
+        return render_template('Storico.html', allarmi=allarmi)
+    except Exception as e:
+        return f"Errore nel caricamento dello storico: {str(e)}", 500
 
 
 if __name__ == '__main__':
