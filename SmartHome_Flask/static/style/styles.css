@@ -273,10 +273,11 @@ img {
     margin: 10px 0;
     z-index: 1;
     position: relative;
-    background: #ccc;
+    background: transparent;
     border-radius: 5px;
     height: 10px;
     cursor: pointer;
+
 }
 
 .n2 {
