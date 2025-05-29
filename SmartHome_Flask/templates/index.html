@@ -109,6 +109,14 @@
                 <div class="card-content">
                   <span class="material-icons icon">thermostat</span>
                   <div class="title">Temperatura</div>
+                  <div class="Icona Temperatura">
+                      {% if temperatura is not none and temperatura > 28 %}
+                          <span class="material-icons mode-fan">ac_unit</span>
+                      {% endif %}
+                      {% if temperatura is not none and temperatura < 28 %}
+                          <span class="material-icons mode-fan">mode_fan_off</span>
+                      {% endif %}
+                  </div>
                 </div>
                 <button class="btn btn-link material-icons arrow" type="button"
                         data-toggle="collapse" data-target="#collapseTemperature"
@@ -125,12 +133,6 @@
                       <div class="t2">
                           <p>
                               {{ temperatura if temperatura is not none else "N/A" }} °C
-                              {% if temperatura is not none and temperatura > 28 %}
-                                <span class="material-icons mode-fan">ac_unit</span>
-                              {% endif %}
-                              {% if temperatura is not none and temperatura < 28 %}
-                                <span class="material-icons mode-fan">mode_fan_off</span>
-                              {% endif %}
                           </p>
                       </div>
                   </div>
