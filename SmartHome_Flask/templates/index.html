@@ -53,23 +53,25 @@
                               <span class="slider round"></span>
                             </label>
                         </div>
-                        <div class="n4">
-                            <h6>Intensitá: </h6>
-                            <input type="range" min="0" max="1000" value="500" class="range-slider" list="tickmarks" step="100">
-                                <datalist id="tickmarks">
-                                    <option value="0"></option>
-                                    <option value="100"></option>
-                                    <option value="200"></option>
-                                    <option value="300"></option>
-                                    <option value="400"></option>
-                                    <option value="500"></option>
-                                    <option value="600"></option>
-                                    <option value="700"></option>
-                                    <option value="800"></option>
-                                    <option value="900"></option>
-                                    <option value="1000"></option>
-                                </datalist>
-                        </div>
+                        {% if stato_luce is not false %}
+                            <div class="n4">
+                                <h6>Intensitá: </h6>
+                                <input type="range" min="0" max="1000" value="500" class="range-slider" list="tickmarks" step="100">
+                                    <datalist id="tickmarks">
+                                        <option value="0"></option>
+                                        <option value="100"></option>
+                                        <option value="200"></option>
+                                        <option value="300"></option>
+                                        <option value="400"></option>
+                                        <option value="500"></option>
+                                        <option value="600"></option>
+                                        <option value="700"></option>
+                                        <option value="800"></option>
+                                        <option value="900"></option>
+                                        <option value="1000"></option>
+                                    </datalist>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
               </div>
@@ -123,7 +125,12 @@
                           <h5>Temperatura Sala:</h5>
                       </div>
                       <div class="t2">
-                          <p>{{ temperatura if temperatura is not none else "N/A" }} °C</p>
+                          <p>
+                              {{ temperatura if temperatura is not none else "N/A" }} °C
+                              {% if temperatura is not none and temperatura > 28 %}
+                                <span class="material-icons mode-fan">mode_fan</span>
+                              {% endif %}
+                          </p>
                       </div>
                   </div>
                 </div>
