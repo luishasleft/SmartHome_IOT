@@ -146,11 +146,17 @@ def comando_web():
 
 @app.route('/api/comando_luce', methods=['POST'])
 def comando_luce():
+    global stato_luce, intensita_luce  # <-- AGGIUNGI QUESTO
+
     if not request.json or 'luce_accesa' not in request.json or 'intensita' not in request.json:
         return jsonify({"errore": "Dati luce mancanti"}), 400
 
     luce = request.json['luce_accesa']
     intensita = request.json['intensita']
+
+    # ✅ AGGIORNA LO STATO SERVER
+    stato_luce = bool(int(luce))
+    intensita_luce = int(intensita)
 
     comando = f"LUCE|{int(luce)}|{int(intensita)}"
     successo = invia_comando_seriale(comando)
