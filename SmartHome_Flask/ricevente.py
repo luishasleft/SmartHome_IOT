@@ -40,19 +40,4 @@ while True:
                 musica_suonando = bool(int(dati[4]))
                 ventola_accesa = bool(int(dati[5]))
 
-                # Ogni 5 messaggi mostra i dati sul display a scorrimento
-                contatore_comandi += 1
-                if contatore_comandi % 5 == 0:
-                    display.scroll("T:{} L:{} P:{} V:{}".format(
-                        temperatura,
-                        led_stato,
-                        potenza_led,
-                        "ON" if ventola_accesa else "OFF"
-                    ), wait=False)
-        else:
-            # Per altri tipi di messaggi, mostra solo un punto
-            display.show(Image.SQUARE_SMALL)
-            sleep(50)
-            display.clear()
-
     sleep(50)  # Piccola pausa per evitare spam di messaggi
