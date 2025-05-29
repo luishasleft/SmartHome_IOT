@@ -1,4 +1,6 @@
-﻿import serial
+﻿#from compileall import compile_dir
+
+import serial
 import requests
 import time
 
@@ -6,12 +8,14 @@ FLASK_URL = 'http://127.0.0.1:5000/api/stato'  # endpoint Flask
 
 # Apri la seriale
 try:
-    serial_microbit = serial.Serial('COM10', 115200, timeout=1)
+    serial_microbit = serial.Serial('COM10', 115200, timeout=0.1)
     time.sleep(2)  # attendi connessione stabile
     print("[INFO] Porta seriale aperta su COM10")
 except Exception as e:
     print(f"[ERRORE] Impossibile aprire la porta seriale: {e}")
     exit(1)
+
+ultimo_comando_inviato = None
 
 while True:
     try:
@@ -21,14 +25,15 @@ while True:
 
             if "|" in linea:
                 try:
-                    messaggio, temperatura, led_stato, potenza_led, colore, musica = linea.split("|")
+                    messaggio, temperatura, led_stato, potenza_led, colore, musica, ventola = linea.split("|")
                     dati = {
                         "messaggio": messaggio,
                         "temperatura": int(temperatura),
                         "led_stato": int(led_stato),
                         "potenza_led": int(potenza_led),
                         "colore": colore,
-                        "musica": bool(int(musica))
+                        "musica": bool(int(musica)),
+                        "ventola": bool(int(ventola))
                     }
                     print("[OK] Messaggio convertito:", dati)
 
@@ -43,8 +48,7 @@ while True:
             else:
                 print("[ERRORE] Formato messaggio non valido")
 
-        time.sleep(0.1)  # evita di saturare la CPU
-
     except Exception as e:
         print(f"[ERRORE] Lettura seriale fallita: {e}")
-        time.sleep(1)
+
+    time.sleep(0.5)
