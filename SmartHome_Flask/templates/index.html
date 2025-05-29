@@ -177,6 +177,7 @@ document.querySelectorAll('.btnalarm').forEach(btn => {
                             switchInput.checked = data.luce_accesa;
                             slider.value = data.intensita;
                         });
+                    location.reload()
                 }, 1000);  // attende un secondo per dare tempo alla micro:bit di rispondere
 
             } else {
@@ -232,6 +233,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
-
 
 </html>
