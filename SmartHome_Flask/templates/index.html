@@ -49,7 +49,7 @@
                             </div>
                         <div class="n2">
                             <label class="switch">
-                              <input type="checkbox">
+                              <input type="checkbox" {% if stato_luce %}checked{% endif %}>
                               <span class="slider round"></span>
                             </label>
                         </div>
@@ -159,7 +159,18 @@ document.querySelectorAll('.btnalarm').forEach(btn => {
         .then(data => {
             if (data.successo) {
                 console.log('Stato aggiornato:', data.stato);
-                location.reload();  // ricarica per aggiornare lo stato visivo
+                // Aspetta un attimo e poi aggiorna solo lo stato della luce
+                setTimeout(() => {
+                    fetch('/api/stato_luce')
+                        .then(res => res.json())
+                        .then(data => {
+                            const switchInput = document.querySelector('.Light input[type="checkbox"]');
+                            const slider = document.querySelector('.Light input[type="range"]');
+                            switchInput.checked = data.luce_accesa;
+                            slider.value = data.intensita;
+                        });
+                }, 1000);  // attende un secondo per dare tempo alla micro:bit di rispondere
+
             } else {
                 console.error('Errore:', data.errore);
             }
@@ -168,5 +179,51 @@ document.querySelectorAll('.btnalarm').forEach(btn => {
     });
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const switchInput = document.querySelector('.Light input[type="checkbox"]');
+    const slider = document.querySelector('.Light input[type="range"]');
+
+    // Carica stato iniziale
+    fetch('/api/stato_luce')
+        .then(res => res.json())
+        .then(data => {
+            switchInput.checked = data.luce_accesa;
+            slider.value = data.intensita;
+        });
+
+    // Invia comando quando il toggle cambia
+    switchInput.addEventListener('change', () => {
+        inviaComandoLuce();
+    });
+
+    // Invia comando quando lo slider cambia
+    slider.addEventListener('input', () => {
+        inviaComandoLuce();
+    });
+
+    function inviaComandoLuce() {
+        fetch('/api/comando_luce', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                luce_accesa: switchInput.checked,
+                intensita: parseInt(slider.value)
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.successo) {
+                console.error('Errore:', data.errore);
+            }
+        })
+        .catch(err => console.error('Errore di rete:', err));
+    }
+});
+</script>
+
 
 </html>

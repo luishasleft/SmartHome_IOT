@@ -10,7 +10,12 @@ ventola_attiva = False
 val = 500
 pin6.write_analog(val)
 
-# accensione della redio e creazione del gruppo
+# Variabile per controllare se la luce è forzatamente accesa/spenta da web
+controllo_web_luce = False
+luce_web_accesa = False
+intensita_web = 500
+
+# accensione della radio e creazione del gruppo
 radio.on()
 radio.config(group=1)
 
@@ -37,50 +42,52 @@ def ventola_off():
     pin10.write_digital(0)
 
 
-# Funzione per processare i comandi ricevuti
-def processa_comando(comando, valore):
-    global val, on, ventola_attiva
+# Funzione per processare i comandi luce da web
+def processa_comando_luce(stato_luce, intensita):
+    global controllo_web_luce, luce_web_accesa, intensita_web, val
 
-    if comando == "LED_INTENSITY":
-        if 0 <= valore <= 1000:
-            val = valore
-            if on % 2 == 1:  # Solo se il sistema è acceso
-                pin6.write_analog(val)
+    controllo_web_luce = True
+    luce_web_accesa = bool(stato_luce)
+    intensita_web = int(intensita)
 
-    elif comando == "TOGGLE_SYSTEM":
-        on += 1  # Cambia stato del sistema
+    # Aggiorna anche val per mantenere coerenza
+    val = intensita_web
 
-    elif comando == "VENTOLA_ON":
-        if not ventola_attiva:
-            ventola_on()
-            ventola_attiva = True
-
-    elif comando == "VENTOLA_OFF":
-        if ventola_attiva:
-            ventola_off()
-            ventola_attiva = False
+    # Applica immediatamente il comando
+    if luce_web_accesa:
+        pin6.write_analog(intensita_web)
+        uart.write("Luce accesa via web - Intensita: {}\n".format(intensita_web))
+    else:
+        pin6.write_digital(0)
+        uart.write("Luce spenta via web\n")
 
 
 # Funzione per processare i comandi web (ARM, DISARM, SOS)
 def processa_comando_web(comando):
-    global on
+    global on, controllo_web_luce
 
     if comando == "ARM":
         # Imposta sistema in modalità ARM (spegnimento - LED rosso)
         if on % 2 == 1:  # Se è attualmente acceso (DISARM)
             on += 1  # Spegni il sistema
+        # Disabilita controllo web quando si cambia modalità sistema
+        controllo_web_luce = False
         uart.write("Sistema ARM attivato\n")
 
     elif comando == "DISARM":
         # Imposta sistema in modalità DISARM (accensione - LED verde)
         if on % 2 == 0:  # Se è attualmente spento (ARM)
             on += 1  # Accendi il sistema
+        # Disabilita controllo web quando si cambia modalità sistema
+        controllo_web_luce = False
         uart.write("Sistema DISARM attivato\n")
 
     elif comando == "SOS":
         # Attiva allarme SOS - forza il sistema in ARM e attiva suono
         if on % 2 == 1:  # Se è attualmente acceso
             on += 1  # Spegni il sistema per attivare ARM
+        # Disabilita controllo web quando si attiva SOS
+        controllo_web_luce = False
         # Suona l'allarme SOS
         for i in range(3):
             music.pitch(880, 200)  # Suono acuto
@@ -108,23 +115,23 @@ def leggi_seriale():
                         # Controlla se è un comando web (ARM, DISARM, SOS)
                         if comando_pulito in ["ARM", "DISARM", "SOS"]:
                             processa_comando_web(comando_pulito)
-                        # Controlla se è un comando DATA dalla webapp (formato: DATA|temp|led|potenza|colore|musica|ventola)
+
+                        # Controlla se è un comando LUCE
+                        elif comando_pulito.startswith("LUCE|"):
+                            parti = comando_pulito.split("|")
+                            if len(parti) == 3:
+                                stato_luce = int(parti[1])  # 0 o 1
+                                intensita = int(parti[2])  # 0-1000
+                                processa_comando_luce(stato_luce, intensita)
+                                uart.write(
+                                    "Comando luce ricevuto: stato={}, intensita={}\n".format(stato_luce, intensita))
+                            else:
+                                uart.write("Errore formato comando LUCE\n")
+
+                        # Controlla se è un comando DATA dalla webapp
                         elif comando_pulito.startswith("DATA|"):
                             # Ignora i comandi DATA dalla webapp (sono solo per debug)
                             uart.write("Comando DATA ricevuto e ignorato\n")
-                        else:
-                            # Formato comando classico: "COMANDO|VALORE"
-                            parti = comando_pulito.split("|")
-                            if len(parti) == 2:
-                                comando = parti[0]
-                                valore = int(parti[1])
-                                processa_comando(comando, valore)
-                                uart.write("Comando seriale ricevuto: {} = {}\n".format(comando, valore))
-                            elif len(parti) == 1:
-                                # Comando senza valore (es. solo "TOGGLE_SYSTEM")
-                                comando = parti[0]
-                                processa_comando(comando, 0)
-                                uart.write("Comando seriale ricevuto: {}\n".format(comando))
                     except Exception as e:
                         uart.write("Errore nel processare comando seriale: {}\n".format(buffer_seriale))
                 # Reset del buffer
@@ -138,22 +145,6 @@ while True:
     # Leggi e processa comandi seriali
     leggi_seriale()
 
-    # Controlla se ci sono messaggi radio ricevuti
-    messaggio_ricevuto = radio.receive()
-    if messaggio_ricevuto:
-        try:
-            # Formato messaggio ricevuto: "COMANDO|VALORE"
-            parti = messaggio_ricevuto.split("|")
-            if len(parti) == 2:
-                comando_ricevuto = parti[0]
-                valore_ricevuto = int(parti[1])
-                processa_comando(comando_ricevuto, valore_ricevuto)
-
-                # mostra il comando ricevuto
-                uart.write("Comando radio ricevuto: {} = {}\n".format(comando_ricevuto, valore_ricevuto))
-        except:
-            pass  # Ignora messaggi malformati
-
     signal = pin9.read_digital()
 
     # Se il sensore NON rileva un campo magnetico
@@ -165,35 +156,37 @@ while True:
         sleep(100)
         on += 1
 
-    # Controllo dell'accensione e dell'intensità della luce in base allo stato
+    # Controllo dell'accensione e dell'intensità della luce
     movimento = pin8.read_digital()
 
-    # Calcolo dello stato del LED sempre
+    # Calcolo dello stato del LED
     led_acceso = 0
     potenza_led = val
 
-    # Il LED è acceso se il sistema è in modalità "acceso" (on % 2 == 1) - VERDE
-    if on % 2 == 1:
-        led_acceso = 1
-        # Controllo dei pulsanti per regolare l'intensità
-        if button_a.is_pressed() and val <= 1023:
-            val += 100
-            if val >= 1000:
-                val = 1000
-        elif button_b.is_pressed() and val >= 0:
-            val -= 100
-            if val <= 0:
-                val = 0
-        # Accendi il LED con l'intensità corrente
-        pin6.write_analog(val)
-        potenza_led = val
-    else:
-        # Sistema in modalità spenta (ROSSO) - LED spento
-        led_acceso = 0
-        pin6.write_digital(0)
-        potenza_led = val
+    # Se il controllo web è attivo, usa le impostazioni web
+    if controllo_web_luce:
+        led_acceso = 1 if luce_web_accesa else 0
+        potenza_led = intensita_web
 
-        # Variabile per tracciare se sta suonando la musica
+        if luce_web_accesa:
+            pin6.write_analog(intensita_web)
+        else:
+            pin6.write_digital(0)
+    else:
+        # Controllo normale basato sullo stato del sistema
+        # Il LED è acceso se il sistema è in modalità "acceso" (on % 2 == 1) - VERDE
+        if on % 2 == 1:
+            led_acceso = 1
+            # Accendi il LED con l'intensità corrente
+            pin6.write_analog(val)
+            potenza_led = val
+        else:
+            # Sistema in modalità spenta (ROSSO) - LED spento
+            led_acceso = 0
+            pin6.write_digital(0)
+            potenza_led = val
+
+            # Variabile per tracciare se sta suonando la musica
     musica_attiva = 0
 
     # Controllo dell'allarme quando c'è movimento ma sistema è spento (ROSSO)
@@ -201,7 +194,7 @@ while True:
         music.pitch(440, 100)
         music.pitch(220, 100)
         musica_attiva = 1
-    # Suono di per cambio stato "Sbloccato/Bloccato"
+    # Suono per cambio stato "Sbloccato/Bloccato"
     if autenticazione != start:
         start = autenticazione
         music.pitch(440, 100)
@@ -239,9 +232,9 @@ while True:
     uart.write("Temp(C): {}\n".format(Temp))
 
     # Controllo della ventola
-    if Temp >= 28 and not ventola_attiva:
+    if Temp >= 30 and not ventola_attiva:
         ventola_on()
         ventola_attiva = True
-    elif Temp <= 24 and ventola_attiva:
+    elif Temp <= 26 and ventola_attiva:
         ventola_off()
         ventola_attiva = False

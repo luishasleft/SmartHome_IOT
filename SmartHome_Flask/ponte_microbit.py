@@ -29,7 +29,7 @@ while True:
                     dati = {
                         "messaggio": messaggio,
                         "temperatura": int(temperatura),
-                        "led_stato": int(led_stato),
+                        "led_stato": bool(led_stato),
                         "potenza_led": int(potenza_led),
                         "colore": colore,
                         "musica": bool(int(musica)),

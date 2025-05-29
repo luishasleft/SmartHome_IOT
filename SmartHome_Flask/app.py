@@ -14,6 +14,8 @@ db = SQLAlchemy(app)
 
 ultimo_stato = None
 ultima_temperatura = None
+stato_luce = False
+intensita_luce = 500  # default a metà
 
 class StoricoAllarme(db.Model):
     __tablename__ = 'StoricoAllarme'
@@ -44,13 +46,13 @@ def invia_comando_seriale(comando, porta='COM12', baudrate=115200):
 def index():
     ultimo = get_ultimo_stato()
     try:
-        return render_template('index.html', ultimo=ultimo, temperatura=ultima_temperatura)
+        return render_template('index.html', ultimo=ultimo, temperatura=ultima_temperatura, stato_luce=stato_luce)
     except Exception as e:
         return f"Errore nel caricamento dello storico: {str(e)}", 500
 
 @app.route('/api/stato', methods=['POST'])
 def ricevi_stato_microbit():
-    global ultimo_stato, ultima_temperatura
+    global ultimo_stato, ultima_temperatura, stato_luce, intensita_luce
     try:
         dati = request.get_json()
         richiesti = ['messaggio', 'temperatura', 'led_stato', 'potenza_led', 'colore', 'musica', 'ventola']
@@ -58,14 +60,18 @@ def ricevi_stato_microbit():
             return jsonify({"errore": "Campi mancanti"}), 400
 
         ultima_temperatura = dati['temperatura']
+        stato_luce = bool(int(dati['led_stato']))
+        intensita_luce = int(dati['potenza_led'])
 
         stato_corrente = None
         if dati['colore'] == 'verde':
             stato_corrente = 'DISARM'
         elif dati['colore'] == 'rosso' and dati['musica']:
             stato_corrente = 'SOS'
+            stato_luce = False
         elif dati['colore'] == 'rosso' and not dati['musica']:
             stato_corrente = 'ARM'
+            stato_luce = False
 
         if stato_corrente is None:
             return jsonify({"errore": "Stato non riconosciuto"}), 400
@@ -88,6 +94,14 @@ def ricevi_stato_microbit():
 
 def get_allarmi():
     return StoricoAllarme.query.order_by(StoricoAllarme.data_ora.desc()).all()
+
+@app.route('/api/stato_luce', methods=['GET'])
+def stato_luce_corrente():
+    return jsonify({
+        "luce_accesa": stato_luce,
+        "intensita": intensita_luce
+    })
+
 
 @app.route('/storico')
 def storico():
@@ -129,6 +143,23 @@ def comando_web():
     except Exception as e:
         db.session.rollback()
         return jsonify({"errore": str(e)}), 500
+
+@app.route('/api/comando_luce', methods=['POST'])
+def comando_luce():
+    if not request.json or 'luce_accesa' not in request.json or 'intensita' not in request.json:
+        return jsonify({"errore": "Dati luce mancanti"}), 400
+
+    luce = request.json['luce_accesa']
+    intensita = request.json['intensita']
+
+    comando = f"LUCE|{int(luce)}|{int(intensita)}"
+    successo = invia_comando_seriale(comando)
+
+    if not successo:
+        return jsonify({"errore": "Invio comando fallito"}), 500
+
+    return jsonify({"successo": True})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
