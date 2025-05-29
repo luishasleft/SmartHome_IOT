@@ -128,7 +128,10 @@
                           <p>
                               {{ temperatura if temperatura is not none else "N/A" }} °C
                               {% if temperatura is not none and temperatura > 28 %}
-                                <span class="material-icons mode-fan">mode_fan</span>
+                                <span class="material-icons mode-fan">toys</span>
+                              {% endif %}
+                              {% if temperatura is not none and temperatura < 28 %}
+                                <span class="material-icons mode-fan">power_off</span>
                               {% endif %}
                           </p>
                       </div>

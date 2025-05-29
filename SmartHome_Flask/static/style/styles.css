@@ -361,6 +361,10 @@ img {
     text-align: right;
 }
 
+.mode-fan{
+    margin-left: 5px;
+}
+
 /* Storico tabella */
 table {
     width: 100%;
