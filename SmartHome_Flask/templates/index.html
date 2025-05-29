@@ -53,7 +53,6 @@
                               <span class="slider round"></span>
                             </label>
                         </div>
-                        {% if stato_luce is not false %}
                             <div class="n4">
                                 <h6>Intensitá: </h6>
                                 <input type="range" min="0" max="1000" value="500" class="range-slider" list="tickmarks" step="100">
@@ -71,7 +70,6 @@
                                         <option value="1000"></option>
                                     </datalist>
                             </div>
-                        {% endif %}
                     </div>
                 </div>
               </div>
@@ -128,10 +126,10 @@
                           <p>
                               {{ temperatura if temperatura is not none else "N/A" }} °C
                               {% if temperatura is not none and temperatura > 28 %}
-                                <span class="material-icons mode-fan">toys</span>
+                                <span class="material-icons mode-fan">ac_unit</span>
                               {% endif %}
                               {% if temperatura is not none and temperatura < 28 %}
-                                <span class="material-icons mode-fan">power_off</span>
+                                <span class="material-icons mode-fan">mode_fan_off</span>
                               {% endif %}
                           </p>
                       </div>
