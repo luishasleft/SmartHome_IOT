@@ -1,104 +1,89 @@
-# 🏠 Smart Home Web App con Blazor + micro:bit + Database
+# 🏠 Smart Home Alarm System with micro:bit and Flask
 
-Questo progetto è una Web App sviluppata in **Blazor** che si connette a un **micro:bit** via USB per ricevere dati dai sensori e salvarli in un **database** per storico e controllo domotico.  
-L’obiettivo è creare un sistema smart home semplice ma estendibile, con gestione di eventi, sensori, allarmi e utenti.
+## 📌 Project Overview
 
----
+This project aims to build a **smart home automation system** using **micro:bit** boards that can detect and monitor essential environmental conditions for **home safety and comfort**.
 
-## 🔧 Fase 1 – Setup Ambiente Base
+The system consists of two micro:bit boards, various environmental sensors, and a **Flask web app** to display data in real-time.
 
-- [ ] Crea il progetto Blazor (WebAssembly o Server)
-- [ ] Configura il database (SQL Server / SQLite / PostgreSQL)
-- [ ] Aggiungi e configura **Entity Framework Core**
-- [ ] Crea i modelli dati: `Sensore`, `EventoSensore`, `Utente`, ecc.
+## 🧠 Key Features
 
----
+- 🌡️ Detects **ambient temperature**
+- 💡 Monitors **room light intensity**
+- 🚪 Detects **door status** (open/closed)
+- 🚨 Detects **motion/presence**
+- 🔊 Alarm control with states: `DISARM`, `ARM`, `SOS`
+- 🌬️ Automatically activates **fan** when temperature is high
+- 🌐 Web interface with **real-time updates**
 
-## 🗂️ Fase 2 – Progetta e Crea lo Schema DB
+## ⚙️ Hardware Components
 
-- [ ] Definisci le entità e le loro relazioni
-- [ ] Implementa il `DbContext`
-- [ ] Esegui migrazione iniziale (`dotnet ef migrations add Init`)
-- [ ] Crea fisicamente il DB (`dotnet ef database update`)
+- 2x **BBC micro:bit**
+- **LM35** (Temperature sensor)
+- **PIR Motion Sensor**
+- **Hall Magnetic Sensor** (door detection)
+- **RGB LED Module**
+- **Fan**
+- Jumper wires and breadboard
 
----
+### 📌 Pin Configuration
 
-## ⚙️ Fase 3 – Servizi lato server
+| Component               | micro:bit Pins      |
+|--------------------------|---------------------|
+| LM35 Temp. Sensor        | S=3, V=3, G=3        |
+| PIR Motion Sensor        | S=8, V=8, G=8        |
+| RGB LED                  | R=S2, G=S1, B=S4, V=V1 |
+| Hall Magnetic Sensor     | S=9, V=9, G=9        |
+| Magnetic door            | Ina=S7, Inb=S10      |
+| Fan                      | V=V2, GND=G10        |
 
-- [ ] Crea i servizi C# (`SensoreService`, `EventoService`, ecc.)
-- [ ] Implementa i metodi per:
-  - Inserimento eventi
-  - Recupero storico dati
-- [ ] Se usi Blazor WebAssembly:
-  - Crea Web API (REST) o SignalR per comunicare col server
+## 🧪 System Architecture
 
----
+1. **Sensor Micro:bit**:
+   - Collects environmental data from sensors
+   - Sends data via **radio** to the receiver micro:bit
 
-## 🔌 Fase 4 – Connessione micro:bit via Web Serial API
+2. **Receiver Micro:bit**:
+   - Connected to **PC via USB**
+   - Sends data via **serial** to the Flask web app
 
-- [ ] Crea uno script JS (`serial.js`) per leggere via `navigator.serial`
-- [ ] Gestisci apertura porta, lettura byte e decodifica
-- [ ] Passa i dati letti a Blazor via `DotNetObjectReference`
+3. **Web App (Flask)**:
+   - Reads data from serial port
+   - Stores and manages state using **SQLite**
+   - Displays data through a **simple dashboard** (HTML/CSS/JS)
 
----
+## 🖥️ Technologies Used
 
-## 📲 Fase 5 – Integrazione in Blazor
+- **MicroPython** (for micro:bit)
+- **Python 3** + **Flask** (backend)
+- **SQLite** (database)
+- **HTML/CSS/JavaScript** (frontend)
 
-- [ ] Crea un componente Blazor per:
-  - Connettere al micro:bit
-  - Mostrare i dati in tempo reale
-- [ ] Alla ricezione dati:
-  - Aggiorna UI (`StateHasChanged`)
-  - Salva i dati nel DB tramite servizio C#
 
----
+## 🚀 How to Run
 
-## 📊 Fase 6 – Dashboard e storico
+1. **Connect** the receiver micro:bit to your PC via USB.
+2. Start the Flask server:
+   ```bash
+   python app_flask/app.py
+   ```
+3. Power on the sensor micro:bit: data transmission begins.
+4. Visit the interface at `http://localhost:5000`.
 
-- [ ] Crea pagine per:
-  - Lista eventi/sensori
-  - Filtri temporali
-  - Dettagli evento
-- [ ] Aggiungi grafici (es. con [Chart.js](https://www.chartjs.org/) o [Radzen.Blazor](https://blazor.radzen.com/chart))
+## 🔧 Web Interface Controls
 
----
+- **ARM**: Activate alarm
+- **DISARM**: Deactivate alarm
+- **SOS**: Emergency state
+- Light control (toggle on/off + set intensity)
 
-## 🧠 Fase 7 – Funzionalità Avanzate
+## 🧠 Technical Notes
 
-- [ ] Notifiche automatiche (email, alert, suoni)
-- [ ] Gestione utenti, login, ruoli
-- [ ] Badge e accesso controllato
-- [ ] Integrazione con moduli WiFi / Bluetooth (opzionale)
+- The project started using **Blazor**, but due to serial communication issues, it was migrated to **Flask**.
+- Real-time updates are handled via **JavaScript** that refreshes the page upon state changes.
 
----
+## 🙋‍♂️ Authors
 
-## 🚀 Fase 8 – Testing e Deploy
-
-- [ ] Testa con micro:bit reale collegato via USB
-- [ ] Verifica salvataggio corretto nel database
-- [ ] Ottimizza UI/UX
-- [ ] Deploy su:
-  - Azure App Service
-  - VPS
-  - Raspberry Pi (se vuoi farlo super nerd 😎)
-
----
-
-## 📎 Requisiti
-
-- .NET 7/8 SDK
-- Visual Studio o VS Code
-- micro:bit v1 o v2
-- Browser compatibile con Web Serial API (Chrome o Edge)
-
----
-
-## 🧠 Funzionalità del sistema Smart Home
-
-- 🔒 **Sistema di allarme**: rilevamento movimenti con sensore PIR, attivazione allarme visivo/sonoro e registrazione evento.
-- 💡 **Controllo luci**: gestione dell'accensione/spegnimento luci tramite micro:bit o da interfaccia web.
-- 🧾 **Storico eventi**: salvataggio dati nel database per visualizzare eventi passati, tipo di evento, timestamp e sensore coinvolto.
-- 🔐 **Accesso tramite badge**: autenticazione tramite badge RFID/NFC simulato dal micro:bit, con eventi di accesso memorizzati.
-- 🧭 **Interfaccia web**: dashboard Blazor per visualizzare dati in tempo reale, storico, e controllare i dispositivi.
-- 🔄 **Integrazione con micro:bit via USB**: ricezione diretta dei dati dal micro:bit attraverso Web Serial API.
-
+- Luigi Gorgone - https://github.com/luishasleft
+- Ludovica Gatti - https://github.com/G4tten
+- Emanuele Marcello - https://github.com/MarcelloEmanuele
